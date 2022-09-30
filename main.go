@@ -8,10 +8,9 @@ import (
 
 	"github.com/GameChangerCorp/cari-kkn-be/config"
 	"github.com/GameChangerCorp/cari-kkn-be/utils"
+	"github.com/gin-gonic/gin"
 
 	"github.com/joho/godotenv"
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
@@ -24,14 +23,10 @@ func main() {
 	defer dbCon.CloseConnection()
 
 	// controllers := modules.RegistrationModules(dbCon, config)
+	e := gin.Default()
 
-	e := echo.New()
-	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{}))
-	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
-		Format: "time=${time_rfc3339_nano}, method=${method}, uri=${uri}, status=${status}\n",
-	}))
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "API Is Active")
+	e.GET("/", func(c *gin.Context) {
+		c.JSON(http.StatusOK, "Hello World")
 	})
 	// api.RegistrationPath(e, controllers)
 	// wg := sync.WaitGroup{}
@@ -42,7 +37,7 @@ func main() {
 		}
 		address := fmt.Sprintf(":%s", port)
 
-		if err := e.Start(address); err != nil {
+		if err := e.Run(address); err != nil {
 			log.Fatal(err)
 		}
 	}()
