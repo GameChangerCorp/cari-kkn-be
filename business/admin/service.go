@@ -9,9 +9,11 @@ import (
 
 type Repository interface {
 	FindAdminByUsername(username string) (*Admin, error)
+	CreateAdmin(auth RegAdmin) error
 }
 type Service interface {
 	LoginAuth(auth AuthLogin) (*ResponseLogin, error)
+	RegisterAdmin(auth RegAdmin) error
 }
 
 type service struct {
@@ -48,4 +50,19 @@ func (s *service) LoginAuth(auth AuthLogin) (*ResponseLogin, error) {
 		Token:    *token,
 	}
 	return res, nil
+}
+
+func (s *service) RegisterAdmin(reg RegAdmin) error {
+	err := s.validate.Struct(reg)
+	if err != nil {
+		return err
+	}
+	hash, err := utils.Hash(reg.Password)
+
+	reg.Password = string(hash)
+	err = s.repository.CreateAdmin(reg)
+	if err != nil {
+		return err
+	}
+	return nil
 }

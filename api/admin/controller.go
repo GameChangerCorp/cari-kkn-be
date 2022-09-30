@@ -15,16 +15,34 @@ func NewController(service adminBusiness.Service) *Controller {
 	}
 }
 
-func (Controller *Controller) LoginAuth(c *gin.Context) error {
+func (Controller *Controller) LoginAuth(c *gin.Context) {
 	var auth adminBusiness.AuthLogin
 	err := c.ShouldBindJSON(&auth)
 	if err != nil {
-		return err
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
 	}
 	res, err := Controller.service.LoginAuth(auth)
 	if err != nil {
-		return err
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
 	}
 	c.JSON(200, res)
-	return nil
+	return
+}
+
+func (Controller *Controller) RegisterAdmin(c *gin.Context) {
+	var auth adminBusiness.RegAdmin
+	err := c.ShouldBindJSON(&auth)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	err = Controller.service.RegisterAdmin(auth)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(200, gin.H{"message": "success"})
+	return
 }

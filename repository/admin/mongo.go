@@ -26,3 +26,11 @@ func (repo *MongoDBRepository) FindAdminByUsername(username string) (*admin.Admi
 	}
 	return &data, nil
 }
+
+func (repo *MongoDBRepository) CreateAdmin(auth admin.RegAdmin) error {
+	_, err := repo.colAdmin.InsertOne(context.Background(), auth)
+	if err != nil {
+		return err
+	}
+	return nil
+}

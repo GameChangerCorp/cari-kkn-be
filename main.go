@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/GameChangerCorp/cari-kkn-be/api"
+	"github.com/GameChangerCorp/cari-kkn-be/app/modules"
 	"github.com/GameChangerCorp/cari-kkn-be/config"
 	"github.com/GameChangerCorp/cari-kkn-be/utils"
 	"github.com/gin-gonic/gin"
@@ -22,13 +24,13 @@ func main() {
 
 	defer dbCon.CloseConnection()
 
-	// controllers := modules.RegistrationModules(dbCon, config)
+	controllers := modules.RegistrationModules(dbCon, config)
 	e := gin.Default()
 
 	e.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, "Hello World")
 	})
-	// api.RegistrationPath(e, controllers)
+	api.RegistrationPath(e, controllers)
 	// wg := sync.WaitGroup{}
 	// wg.Add(1)
 	go func() {
