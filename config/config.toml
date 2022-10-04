@@ -1,0 +1,6 @@
+MONGO_HOST=cluster0.uhklk3x.mongodb.net
+MONGO_PORT=27017
+MONGO_DBNAME=cari-kkn-be
+MONGO_USER=roby
+MONGO_PASS=roby06
+MONGO_ETC=,ac-i4jloq7-shard-00-01.uhklk3x.mongodb.net:27017,ac-i4jloq7-shard-00-02.uhklk3x.mongodb.net:27017/test?replicaSet=atlas-ntpeyg-shard-0&ssl=true&authSource=admin

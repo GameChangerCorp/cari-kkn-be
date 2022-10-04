@@ -30,7 +30,7 @@ func (Controller *Controller) LoginAuth(c *gin.Context) {
 	c.JSON(200, res)
 }
 
-func (Controller *Controller) RegisterAdmin(c *gin.Context) {
+func (Controller *Controller) RegisterAuth(c *gin.Context) {
 	var auth userBusiness.RegUser
 	err := c.ShouldBindJSON(&auth)
 	if err != nil {

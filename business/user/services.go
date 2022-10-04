@@ -14,7 +14,7 @@ func (s *service) Login(auth AuthLogin) (*ResponseLogin, error) {
 	}
 	data, err := s.Repository.FindAccount(auth.Email)
 	if err != nil {
-		return nil, errors.New("wrong account")
+		return nil, errors.New("account not found")
 	}
 	err = utils.VerifyPassword(data.Password, auth.Password)
 	if err != nil {
