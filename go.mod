@@ -6,6 +6,7 @@ go 1.17
 require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/spf13/viper v1.11.0
+	golang.org/x/crypto v0.0.0-20220622213112-05595931fe9d
 )
 
 require (
@@ -27,9 +28,7 @@ require (
 	github.com/xdg-go/scram v1.1.1 // indirect
 	github.com/xdg-go/stringprep v1.0.3 // indirect
 	github.com/youmark/pkcs8 v0.0.0-20181117223130-1be2e3e5546d // indirect
-	golang.org/x/crypto v0.0.0-20220622213112-05595931fe9d // indirect
 	golang.org/x/sync v0.0.0-20220601150217-0de741cfad7f // indirect
-	golang.org/x/time v0.0.0-20201208040808-7e3f01d25324 // indirect
 	google.golang.org/protobuf v1.28.0 // indirect
 )
 
