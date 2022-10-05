@@ -29,10 +29,10 @@ type Role struct {
 	Description string             `bson:"description,omitempty" binding:"required" json:"description"`
 }
 type RegAdmin struct {
-	Username string             `bson:"username,omitempty" binding:"required"`
-	Fullname string             `bson:"fullname,omitempty" binding:"required"`
-	Password string             `bson:"password,omitempty" binding:"required"`
-	Role_id  primitive.ObjectID `bson:"role_id,omitempty" binding:"required"`
+	Username string `bson:"username,omitempty" binding:"required"`
+	Fullname string `bson:"fullname,omitempty" binding:"required"`
+	Password string `bson:"password,omitempty" binding:"required"`
+	// Role_id  primitive.ObjectID `bson:"role_id,omitempty" binding:"required"`
 }
 
 type DesaKKN struct {
