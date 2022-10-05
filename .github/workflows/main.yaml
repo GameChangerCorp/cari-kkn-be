@@ -11,6 +11,7 @@ jobs:
         env:
           DEBUG_PASSWORD: ${{ secrets.FLY_API_TOKEN  }}
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-      - run: echo $DEBUG_PASSWORD >> secrets.txt
+      - run: | 
+             echo $DEBUG_PASSWORD
              flyctl deploy --remote-only
              
