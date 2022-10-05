@@ -11,11 +11,13 @@ type Repository interface {
 	FindAdminByUsername(username string) (*Admin, error)
 	CreateAdmin(auth RegAdmin) error
 	FindAllDesa() ([]DesaKKN, error)
+	CreateDesa(desa CreateDesaKKN) error
 }
 type Service interface {
 	LoginAuth(auth AuthLogin) (*ResponseLogin, error)
 	RegisterAdmin(auth RegAdmin) error
 	GetAllDesa() ([]DesaKKN, error)
+	CreateDesa(desa CreateDesaKKN) error
 }
 
 type service struct {
@@ -75,4 +77,16 @@ func (s *service) GetAllDesa() ([]DesaKKN, error) {
 		return nil, err
 	}
 	return res, nil
+}
+
+func (s *service) CreateDesa(desa CreateDesaKKN) error {
+	err := s.validate.Struct(desa)
+	if err != nil {
+		return err
+	}
+	err = s.repository.CreateDesa(desa)
+	if err != nil {
+		return err
+	}
+	return nil
 }

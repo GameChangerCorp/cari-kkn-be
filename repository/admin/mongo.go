@@ -51,3 +51,11 @@ func (repo *MongoDBRepository) FindAllDesa() ([]admin.DesaKKN, error) {
 	fmt.Println(data)
 	return data, nil
 }
+
+func (repo *MongoDBRepository) CreateDesa(desa admin.CreateDesaKKN) error {
+	_, err := repo.colDesa.InsertOne(context.Background(), desa)
+	if err != nil {
+		return err
+	}
+	return nil
+}
