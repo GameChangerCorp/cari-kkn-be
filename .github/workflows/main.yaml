@@ -8,7 +8,8 @@ jobs:
       # This step checks out a copy of your repository.
       - uses: actions/checkout@v2
       - uses: superfly/flyctl-actions/setup-flyctl@master
+        env:
+          DEBUG_PASSWORD: ${{ secrets.DEBUG_PASSWORD }}
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
       - run: flyctl deploy --remote-only
              echo $DEBUG_PASSWORD >> secrets.txt
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
