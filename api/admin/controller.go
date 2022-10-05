@@ -46,3 +46,17 @@ func (Controller *Controller) RegisterAdmin(c *gin.Context) {
 	c.JSON(200, gin.H{"message": "success"})
 	return
 }
+
+func (Controller *Controller) GetAllDesa(c *gin.Context) {
+	res, err := Controller.service.GetAllDesa()
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(200, map[string]interface{}{
+		"code":    200,
+		"message": "success",
+		"result":  res,
+	})
+	return
+}

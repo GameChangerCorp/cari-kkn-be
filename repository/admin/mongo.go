@@ -2,6 +2,7 @@ package admin
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/GameChangerCorp/cari-kkn-be/business/admin"
 	"go.mongodb.org/mongo-driver/bson"
@@ -10,11 +11,13 @@ import (
 
 type MongoDBRepository struct {
 	colAdmin *mongo.Collection
+	colDesa  *mongo.Collection
 }
 
 func NewMongoRepository(col *mongo.Database) *MongoDBRepository {
 	return &MongoDBRepository{
 		colAdmin: col.Collection("admin"),
+		colDesa:  col.Collection("desa-kkn"),
 	}
 }
 
@@ -33,4 +36,18 @@ func (repo *MongoDBRepository) CreateAdmin(auth admin.RegAdmin) error {
 		return err
 	}
 	return nil
+}
+
+func (repo *MongoDBRepository) FindAllDesa() ([]admin.DesaKKN, error) {
+	var data []admin.DesaKKN
+	cursor, err := repo.colDesa.Find(context.Background(), bson.M{})
+	if err != nil {
+		return nil, err
+	}
+	err = cursor.All(context.Background(), &data)
+	if err != nil {
+		return nil, err
+	}
+	fmt.Println(data)
+	return data, nil
 }

@@ -10,10 +10,12 @@ import (
 type Repository interface {
 	FindAdminByUsername(username string) (*Admin, error)
 	CreateAdmin(auth RegAdmin) error
+	FindAllDesa() ([]DesaKKN, error)
 }
 type Service interface {
 	LoginAuth(auth AuthLogin) (*ResponseLogin, error)
 	RegisterAdmin(auth RegAdmin) error
+	GetAllDesa() ([]DesaKKN, error)
 }
 
 type service struct {
@@ -65,4 +67,12 @@ func (s *service) RegisterAdmin(reg RegAdmin) error {
 		return err
 	}
 	return nil
+}
+
+func (s *service) GetAllDesa() ([]DesaKKN, error) {
+	res, err := s.repository.FindAllDesa()
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
 }

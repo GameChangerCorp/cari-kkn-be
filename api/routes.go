@@ -12,6 +12,7 @@ type Controller struct {
 }
 
 func RegistrationPath(e *gin.Engine, controller Controller) {
+	e.GET("/admin/desa", controller.AdminController.GetAllDesa)
 	e.POST("/admin/login", controller.AdminController.LoginAuth)
 	e.POST("admin/register", controller.AdminController.RegisterAdmin)
 
