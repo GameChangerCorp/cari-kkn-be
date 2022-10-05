@@ -19,6 +19,7 @@ import (
 func main() {
 	godotenv.Load()
 	fmt.Println(os.Getenv("MONGO_ETC"))
+
 	port := os.Getenv("PORT")
 
 	config := config.GetConfig()
