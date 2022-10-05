@@ -28,14 +28,15 @@ type User struct {
 type Role struct {
 	ID          primitive.ObjectID `bson:"_id,omitempty" json:"_id"`
 	Name        string             `bson:"name,omitempty" binding:"required" json:"name"`
-	Label       string             `bson:"label,omitempty" binding:"required" json:"label"`
-	Description string             `bson:"description,omitempty" binding:"required" json:"description"`
+	Label       string             `bson:"label,omitempty" json:"label"`
+	Description string             `bson:"description,omitempty" json:"description"`
 }
 
 type RegUser struct {
-	Fullname    string `bson:"fullname,omitempty" binding:"required"`
-	Email       string `bson:"email,omitempty" binding:"required"`
-	Password    string `bson:"password,omitempty" binding:"required"`
-	Phone       int    `bson:"phone,omitempty" binding:"required"`
-	Universitas string `bson:"universitas,omitempty" binding:"required"`
+	Fullname    string             `bson:"fullname,omitempty" binding:"required"`
+	Email       string             `bson:"email,omitempty" binding:"required"`
+	Password    string             `bson:"password,omitempty" binding:"required"`
+	Phone       int                `bson:"phone,omitempty" binding:"required"`
+	Universitas string             `bson:"universitas,omitempty" binding:"required"`
+	RoleId      primitive.ObjectID `bson:"role_id,omitempty"`
 }

@@ -9,12 +9,14 @@ import (
 )
 
 type MongoDBRepository struct {
-	colUser *mongo.Collection
+	colUser     *mongo.Collection
+	colRoleUser *mongo.Collection
 }
 
 func NewMongoRepository(col *mongo.Database) *MongoDBRepository {
 	return &MongoDBRepository{
-		colUser: col.Collection("user"),
+		colUser:     col.Collection("user"),
+		colRoleUser: col.Collection("roles_user"),
 	}
 }
 
@@ -28,7 +30,15 @@ func (repo *MongoDBRepository) FindAccount(email string) (*user.User, error) {
 }
 
 func (repo *MongoDBRepository) CreateAccount(auth user.RegUser) error {
-	_, err := repo.colUser.InsertOne(context.Background(), auth)
+	var role user.Role
+	err := repo.colRoleUser.FindOne(context.Background(), bson.M{"name": "user"}).Decode(&role)
+
+	if err != nil {
+		return err
+	}
+
+	auth.RoleId = role.ID
+	_, err = repo.colUser.InsertOne(context.Background(), auth)
 	if err != nil {
 		return err
 	}
