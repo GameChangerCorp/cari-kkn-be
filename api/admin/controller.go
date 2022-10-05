@@ -60,3 +60,22 @@ func (Controller *Controller) GetAllDesa(c *gin.Context) {
 	})
 	return
 }
+
+func (Controller *Controller) CreateDesa(c *gin.Context) {
+	var desa adminBusiness.CreateDesaKKN
+	err := c.ShouldBindJSON(&desa)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	err = Controller.service.CreateDesa(desa)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(200, map[string]interface{}{
+		"code":    200,
+		"message": "success create desa",
+	})
+	return
+}
