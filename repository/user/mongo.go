@@ -36,6 +36,15 @@ func (repo *MongoDBRepository) FindAccount(email string) (*user.User, error) {
 	return &data, nil
 }
 
+func (repo *MongoDBRepository) CheckAccount(email string) bool {
+	var data user.User
+	err := repo.colUser.FindOne(context.Background(), bson.M{"email": email}).Decode(&data)
+	if err != nil {
+		return false
+	}
+	return email == data.Email
+}
+
 func (repo *MongoDBRepository) CreateAccount(auth user.RegUser) error {
 	var role user.Role
 	err := repo.colRoleUser.FindOne(context.Background(), bson.M{"name": "user"}).Decode(&role)

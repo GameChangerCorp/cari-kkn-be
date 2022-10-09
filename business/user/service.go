@@ -4,6 +4,7 @@ import "github.com/go-playground/validator/v10"
 
 type Repository interface {
 	FindAccount(email string) (*User, error)
+	CheckAccount(email string) bool
 	CreateAccount(user RegUser) error
 	FetchAllDesa() ([]Desa, error)
 	InsertReservation(userId, villageId string) error

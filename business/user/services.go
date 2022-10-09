@@ -41,6 +41,12 @@ func (s *service) Register(reg RegUser) error {
 		return err
 	}
 
+	isAccountExists := s.Repository.CheckAccount(reg.Email)
+
+	if isAccountExists {
+		return errors.New("account already exists")
+	}
+
 	hash, err := utils.Hash(reg.Password)
 
 	if err != nil {
