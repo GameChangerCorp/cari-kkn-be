@@ -3,7 +3,6 @@ package user
 import (
 	"context"
 	"errors"
-	"fmt"
 
 	"github.com/GameChangerCorp/cari-kkn-be/business/user"
 	"github.com/GameChangerCorp/cari-kkn-be/repository"
@@ -85,12 +84,7 @@ func (repo *MongoDBRepository) InsertReservation(userId, villageId string) error
 }
 
 func (repo *MongoDBRepository) FetchReservation(userId string) ([]user.DataReservation, error) {
-	fmt.Println(userId)
 	id, _ := primitive.ObjectIDFromHex(userId)
-	// newStatus := repository.SetStatus("ON_PROCESS")
-
-	// newData := user.DataReservation{User: }
-	// _, err := repo.colReservation.InsertOne(context.Background(), newData)
 
 	qry := []bson.M{
 		{
@@ -113,6 +107,12 @@ func (repo *MongoDBRepository) FetchReservation(userId string) ([]user.DataReser
 				"foreignField": "_id",
 				"as":           "desa",
 			},
+		},
+		{
+			"$unwind": "$user",
+		},
+		{
+			"$unwind": "$desa",
 		},
 	}
 
