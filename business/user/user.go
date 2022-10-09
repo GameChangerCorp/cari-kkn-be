@@ -68,6 +68,7 @@ type GetReservation struct {
 	UserId string `json:"user_id" bson:"user_id,omitempty" binding:"required"`
 }
 type DataReservation struct {
-	User
-	Desa
+	User   []User `json:"user" bson:"user,omitempty"`
+	Desa   []Desa `json:"desa" bson:"desa,omitempty"`
+	Status string `json:"status" bson:"status,omitempty"`
 }

@@ -3,10 +3,12 @@ package user
 import (
 	"context"
 	"errors"
+	"fmt"
 
 	"github.com/GameChangerCorp/cari-kkn-be/business/user"
 	"github.com/GameChangerCorp/cari-kkn-be/repository"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -83,6 +85,8 @@ func (repo *MongoDBRepository) InsertReservation(userId, villageId string) error
 }
 
 func (repo *MongoDBRepository) FetchReservation(userId string) ([]user.DataReservation, error) {
+	fmt.Println(userId)
+	id, _ := primitive.ObjectIDFromHex(userId)
 	// newStatus := repository.SetStatus("ON_PROCESS")
 
 	// newData := user.DataReservation{User: }
@@ -91,39 +95,23 @@ func (repo *MongoDBRepository) FetchReservation(userId string) ([]user.DataReser
 	qry := []bson.M{
 		{
 			"$match": bson.M{
-				"user_id": userId,
+				"user_id": id,
 			},
 		},
 		{
 			"$lookup": bson.M{
-				// Define the tags collection for the join.
-				"from": "user",
-				// Specify the variable to use in the pipeline stage.
-				// "let": bson.M{
-				// 	"tags": "$tags",
-				// },
-				"pipeline": []bson.M{
-					// Select only the relevant tags from the tags collection.
-					// Otherwise all the tags are selected.
-					{
-						"$match": bson.M{
-							"$expr": bson.M{
-								"$in": []interface{}{
-									"$uuid",
-									"$$tags",
-								},
-							},
-						},
-					},
-					// Sort tags by their name field in asc. -1 = desc
-					{
-						"$sort": bson.M{
-							"_id": userId,
-						},
-					},
-				},
-				// Use tags as the field name to match struct field.
-				"as": "user_id",
+				"from":         "user",
+				"localField":   "user_id",
+				"foreignField": "_id",
+				"as":           "user",
+			},
+		},
+		{
+			"$lookup": bson.M{
+				"from":         "desa-kkn",
+				"localField":   "village_id",
+				"foreignField": "_id",
+				"as":           "desa",
 			},
 		},
 	}
