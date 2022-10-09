@@ -72,3 +72,23 @@ type InputProductTransaction struct {
 	Amount     int                `json:"amount" bson:"amount,omitempty"`
 	Created_at time.Time          `json:"created_at" bson:"created_at,omitempty"`
 }
+
+type StatusReservation struct {
+	Status string `json:"status" bson:"status,omitempty"`
+}
+
+func SetStatus(key string) *StatusReservation {
+
+	switch key {
+	case "ON_PROCESS":
+		key = "ON PROCESS"
+	case "APPROVED":
+		key = "APPROVED"
+	case "REJECTED":
+		key = "REJECTED"
+	default:
+		key = "ON PROCESS"
+	}
+
+	return &StatusReservation{Status: key}
+}

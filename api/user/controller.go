@@ -15,32 +15,91 @@ func NewController(service userBusiness.Service) *Controller {
 	}
 }
 
-func (Controller *Controller) LoginAuth(c *gin.Context) {
+type response struct {
+	Message string      `json:"message"`
+	Data    interface{} `json:"data"`
+}
+
+func (controller *Controller) LoginAuth(c *gin.Context) {
 	var auth userBusiness.AuthLogin
 	err := c.ShouldBindJSON(&auth)
+
 	if err != nil {
-		c.JSON(400, gin.H{"error": err.Error()})
+		c.JSON(400, response{Message: err.Error(), Data: nil})
 		return
 	}
-	res, err := Controller.service.Login(auth)
+	res, err := controller.service.Login(auth)
 	if err != nil {
-		c.JSON(400, gin.H{"error": err.Error()})
+		c.JSON(400, response{Message: err.Error(), Data: nil})
 		return
 	}
 	c.JSON(200, res)
 }
 
-func (Controller *Controller) RegisterAuth(c *gin.Context) {
+func (controller *Controller) RegisterAuth(c *gin.Context) {
 	var auth userBusiness.RegUser
 	err := c.ShouldBindJSON(&auth)
 	if err != nil {
-		c.JSON(400, gin.H{"error": err.Error()})
+		c.JSON(400, response{Message: err.Error(), Data: nil})
 		return
 	}
-	err = Controller.service.Register(auth)
+	err = controller.service.Register(auth)
 	if err != nil {
-		c.JSON(400, gin.H{"error": err.Error()})
+		c.JSON(400, response{Message: err.Error(), Data: nil})
 		return
 	}
-	c.JSON(200, gin.H{"message": "success"})
+	c.JSON(201, response{Message: "success", Data: nil})
+}
+
+func (controller *Controller) GetAllData(c *gin.Context) {
+	data, err := controller.service.GetAllDesa()
+
+	if err != nil {
+		c.JSON(400, response{Message: err.Error(), Data: nil})
+		return
+	}
+
+	c.JSON(200, response{Message: "data found", Data: data})
+}
+
+func (controller *Controller) Reservation(c *gin.Context) {
+	var dataReservation userBusiness.Reservation
+
+	err := c.ShouldBindJSON(&dataReservation)
+
+	if err != nil {
+		c.JSON(400, response{Message: err.Error(), Data: nil})
+		return
+	}
+
+	err = controller.service.Reservation(dataReservation.UserId, dataReservation.VillageId)
+
+	if err != nil {
+		c.JSON(500, response{Message: err.Error(), Data: nil})
+		return
+	}
+
+	c.JSON(201, response{Message: "success", Data: nil})
+}
+
+func (controller *Controller) GetReservation(c *gin.Context) {
+	userId := c.Param("id")
+
+	if userId == "" {
+		c.JSON(400, response{Message: "user id can't be empty", Data: nil})
+		return
+	}
+
+	// userId userBusiness.GetReservation
+
+	// err := c.ShouldBindJSON(&userId)
+
+	data, err := controller.service.GetReservation(userId)
+
+	if err != nil {
+		c.JSON(500, response{Message: err.Error(), Data: nil})
+		return
+	}
+
+	c.JSON(200, response{Message: "success", Data: data})
 }

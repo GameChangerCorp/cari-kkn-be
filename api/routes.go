@@ -17,6 +17,9 @@ func RegistrationPath(e *gin.Engine, controller Controller) {
 	e.POST("/admin/login", controller.AdminController.LoginAuth)
 	e.POST("admin/register", controller.AdminController.RegisterAdmin)
 
-	e.POST("/user/login", controller.UserController.LoginAuth)
-	e.POST("/user/register", controller.UserController.RegisterAuth)
+	e.POST("user/login", controller.UserController.LoginAuth)
+	e.POST("user/register", controller.UserController.RegisterAuth)
+	e.GET("user/desa", controller.UserController.GetAllData)
+	e.POST("user/reservation", controller.UserController.Reservation)
+	e.GET("user/reservation/:id", controller.UserController.GetReservation)
 }

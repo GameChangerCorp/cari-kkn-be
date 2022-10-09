@@ -14,7 +14,7 @@ func (s *service) Login(auth AuthLogin) (*ResponseLogin, error) {
 	}
 	data, err := s.Repository.FindAccount(auth.Email)
 	if err != nil {
-		return nil, errors.New("account not found")
+		return nil, err
 	}
 	err = utils.VerifyPassword(data.Password, auth.Password)
 	if err != nil {
@@ -53,4 +53,38 @@ func (s *service) Register(reg RegUser) error {
 		return err
 	}
 	return nil
+}
+
+func (s *service) GetAllDesa() ([]Desa, error) {
+
+	data, err := s.Repository.FetchAllDesa()
+
+	if err != nil {
+		return nil, err
+	}
+
+	return data, nil
+}
+
+func (s *service) Reservation(userId, villageId string) error {
+
+	err := s.Repository.InsertReservation(userId, villageId)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s *service) GetReservation(userId string) ([]DataReservation, error) {
+
+	reservation, err := s.Repository.FetchReservation(userId)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return reservation, nil
+
 }

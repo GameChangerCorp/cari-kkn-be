@@ -40,3 +40,34 @@ type RegUser struct {
 	Universitas string             `bson:"universitas,omitempty" binding:"required"`
 	RoleId      primitive.ObjectID `bson:"role_id,omitempty"`
 }
+
+type Desa struct {
+	ID          primitive.ObjectID `json:"id" bson:"_id,omitempty"`
+	UrlPhoto    string             `json:"url_photo" bson:"url_photo,omitempty"`
+	NamaTempat  string             `json:"nama_tempat" bson:"nama_tempat,omitempty"`
+	NamaKota    string             `json:"nama_kota" bson:"nama_kota,omitempty"`
+	JumlahOrang int                `json:"jumlah_orang" bson:"jumlah_orang,omitempty"`
+	Fasilitas   []string           `json:"fasilitas" bson:"fasilitas,omitempty"`
+	Kebutuhan   []string           `json:"kebutuhan" bson:"kebutuhan,omitempty"`
+	PicJabatan  string             `json:"pic_jabatan" bson:"pic_jabatan,omitempty"`
+	PicNama     string             `json:"pic_nama" bson:"pic_nama,omitempty"`
+	PicPhone    string             `json:"pic_phone" bson:"pic_phone,omitempty"`
+}
+
+type Reservation struct {
+	Id          string `json:"id" bson:"_id,omitempty"`
+	UserId      string `json:"user_id" bson:"user_id,omitempty" binding:"required"`
+	VillageId   string `json:"village_id" bson:"village_id,omitempty" binding:"required"`
+	NamaTempat  string `json:"nama_tempat" bson:"nama_tempat,omitempty"`
+	NamaKota    string `json:"nama_kota" bson:"nama_kota,omitempty"`
+	JumlahOrang int    `json:"jumlah_orang" bson:"jumlah_orang,omitempty"`
+	Status      string `json:"status" bson:"status,omitempty"`
+}
+
+type GetReservation struct {
+	UserId string `json:"user_id" bson:"user_id,omitempty" binding:"required"`
+}
+type DataReservation struct {
+	User
+	Desa
+}
