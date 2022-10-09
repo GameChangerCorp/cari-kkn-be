@@ -54,21 +54,30 @@ type Desa struct {
 	PicPhone    string             `json:"pic_phone" bson:"pic_phone,omitempty"`
 }
 
+type ReqReservation struct {
+	UserId    string `json:"user_id" bson:"user_id,omitempty" binding:"required"`
+	VillageId string `json:"village_id" bson:"village_id,omitempty" binding:"required"`
+	Status    string `json:"status" bson:"status,omitempty"`
+}
 type Reservation struct {
-	Id          string `json:"id" bson:"_id,omitempty"`
-	UserId      string `json:"user_id" bson:"user_id,omitempty" binding:"required"`
-	VillageId   string `json:"village_id" bson:"village_id,omitempty" binding:"required"`
-	NamaTempat  string `json:"nama_tempat" bson:"nama_tempat,omitempty"`
-	NamaKota    string `json:"nama_kota" bson:"nama_kota,omitempty"`
-	JumlahOrang int    `json:"jumlah_orang" bson:"jumlah_orang,omitempty"`
-	Status      string `json:"status" bson:"status,omitempty"`
+	Id        string             `json:"id" bson:"_id,omitempty"`
+	UserId    primitive.ObjectID `json:"user_id" bson:"user_id,omitempty" binding:"required"`
+	VillageId primitive.ObjectID `json:"village_id" bson:"village_id,omitempty" binding:"required"`
+	Status    string             `json:"status" bson:"status,omitempty"`
 }
 
 type GetReservation struct {
 	UserId string `json:"user_id" bson:"user_id,omitempty" binding:"required"`
 }
+
+type UserData struct {
+	Email       string `bson:"email,omitempty" binding:"required"`
+	Fullname    string `bson:"fullname,omitempty" binding:"required"`
+	Phone       string `bson:"phone,omitempty" binding:"required"`
+	Universitas string `bson:"universitas,omitempty" binding:"required"`
+}
 type DataReservation struct {
-	User   User   `json:"user" bson:"user,omitempty"`
-	Desa   Desa   `json:"desa" bson:"desa,omitempty"`
-	Status string `json:"status" bson:"status,omitempty"`
+	User   UserData `json:"user" bson:"user,omitempty"`
+	Desa   Desa     `json:"desa" bson:"desa,omitempty"`
+	Status string   `json:"status" bson:"status,omitempty"`
 }

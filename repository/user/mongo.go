@@ -73,8 +73,20 @@ func (repo *MongoDBRepository) FetchAllDesa() ([]user.Desa, error) {
 func (repo *MongoDBRepository) InsertReservation(userId, villageId string) error {
 	newStatus := repository.SetStatus("ON_PROCESS")
 
-	newData := user.Reservation{UserId: userId, VillageId: villageId, Status: newStatus.Status}
-	_, err := repo.colReservation.InsertOne(context.Background(), newData)
+	u, err := primitive.ObjectIDFromHex(userId)
+
+	if err != nil {
+		return err
+	}
+
+	v, err := primitive.ObjectIDFromHex(villageId)
+
+	if err != nil {
+		return err
+	}
+
+	newData := user.Reservation{UserId: u, VillageId: v, Status: newStatus.Status}
+	_, err = repo.colReservation.InsertOne(context.Background(), newData)
 
 	if err != nil {
 		return err

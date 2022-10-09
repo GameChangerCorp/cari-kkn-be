@@ -63,7 +63,7 @@ func (controller *Controller) GetAllData(c *gin.Context) {
 }
 
 func (controller *Controller) Reservation(c *gin.Context) {
-	var dataReservation userBusiness.Reservation
+	var dataReservation userBusiness.ReqReservation
 
 	err := c.ShouldBindJSON(&dataReservation)
 
