@@ -3,6 +3,7 @@ package admin
 import (
 	"errors"
 
+	"github.com/GameChangerCorp/cari-kkn-be/repository"
 	"github.com/GameChangerCorp/cari-kkn-be/utils"
 	"github.com/go-playground/validator/v10"
 )
@@ -12,14 +13,14 @@ type Repository interface {
 	CreateAdmin(auth RegAdmin) error
 	FindAllDesa() ([]DesaKKN, error)
 	CreateDesa(desa CreateDesaKKN) error
-	ApproveRequestDesa(id string) error
+	ApproveRequestDesa(id, status string) error
 }
 type Service interface {
 	LoginAuth(auth AuthLogin) (*ResponseLogin, error)
 	RegisterAdmin(auth RegAdmin) error
 	GetAllDesa() ([]DesaKKN, error)
 	CreateDesa(desa CreateDesaKKN) error
-	AcceptRequestDesa(id string) error
+	AcceptRequestDesa(id, status string) error
 }
 
 type service struct {
@@ -93,11 +94,17 @@ func (s *service) CreateDesa(desa CreateDesaKKN) error {
 	return nil
 }
 
-func (s service) AcceptRequestDesa(id string) error {
+func (s service) AcceptRequestDesa(id, status string) error {
 	if id == "" {
 		return errors.New("id is empty")
 	}
-	err := s.repository.ApproveRequestDesa(id)
+	if status == "approve" {
+		status = "APPROVED"
+	} else if status == "reject" {
+		status = "REJECTED"
+	}
+	newStatus := repository.SetStatus(status)
+	err := s.repository.ApproveRequestDesa(id, newStatus.Status)
 	if err != nil {
 		return err
 	}

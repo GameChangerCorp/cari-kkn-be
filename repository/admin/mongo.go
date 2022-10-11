@@ -64,10 +64,10 @@ func (repo *MongoDBRepository) CreateDesa(desa admin.CreateDesaKKN) error {
 	return nil
 }
 
-func (repo *MongoDBRepository) ApproveRequestDesa(id string) error {
+func (repo *MongoDBRepository) ApproveRequestDesa(id, status string) error {
 	objId, _ := primitive.ObjectIDFromHex(id)
 	fmt.Println(objId)
-	err := repo.colReservation.FindOneAndUpdate(context.Background(), bson.M{"_id": objId, "status": "ON PROCESS"}, bson.M{"$set": bson.M{"status": "approved"}}).Err()
+	err := repo.colReservation.FindOneAndUpdate(context.Background(), bson.M{"_id": objId, "status": "ON PROCESS"}, bson.M{"$set": bson.M{"status": status}}).Err()
 	if err != nil {
 		fmt.Println(err)
 		return errors.New("wrong id desa")

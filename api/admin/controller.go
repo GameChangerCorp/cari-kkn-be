@@ -1,6 +1,8 @@
 package admin
 
 import (
+	"fmt"
+
 	adminBusiness "github.com/GameChangerCorp/cari-kkn-be/business/admin"
 	"github.com/gin-gonic/gin"
 )
@@ -82,14 +84,25 @@ func (Controller *Controller) CreateDesa(c *gin.Context) {
 
 func (Controller *Controller) ApproveRequestDesa(c *gin.Context) {
 	id := c.Param("id")
-	err := Controller.service.AcceptRequestDesa(id)
+	status := c.Param("status")
+	if status != "approve" && status != "reject" {
+		c.JSON(400, map[string]interface{}{
+			"code":    400,
+			"message": "status must be approved or rejected",
+		})
+		return
+	}
+	err := Controller.service.AcceptRequestDesa(id, status)
 	if err != nil {
-		c.JSON(400, gin.H{"error": err.Error()})
+		c.JSON(400, map[string]interface{}{
+			"code":    400,
+			"message": err.Error(),
+		})
 		return
 	}
 	c.JSON(200, map[string]interface{}{
 		"code":    200,
-		"message": "success approve desa",
+		"message": fmt.Sprintf("success %s desa", status),
 	})
 	return
 }
