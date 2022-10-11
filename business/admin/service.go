@@ -12,12 +12,14 @@ type Repository interface {
 	CreateAdmin(auth RegAdmin) error
 	FindAllDesa() ([]DesaKKN, error)
 	CreateDesa(desa CreateDesaKKN) error
+	ApproveRequestDesa(id string) error
 }
 type Service interface {
 	LoginAuth(auth AuthLogin) (*ResponseLogin, error)
 	RegisterAdmin(auth RegAdmin) error
 	GetAllDesa() ([]DesaKKN, error)
 	CreateDesa(desa CreateDesaKKN) error
+	AcceptRequestDesa(id string) error
 }
 
 type service struct {
@@ -85,6 +87,17 @@ func (s *service) CreateDesa(desa CreateDesaKKN) error {
 		return err
 	}
 	err = s.repository.CreateDesa(desa)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s service) AcceptRequestDesa(id string) error {
+	if id == "" {
+		return errors.New("id is empty")
+	}
+	err := s.repository.ApproveRequestDesa(id)
 	if err != nil {
 		return err
 	}

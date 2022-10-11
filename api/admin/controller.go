@@ -79,3 +79,17 @@ func (Controller *Controller) CreateDesa(c *gin.Context) {
 	})
 	return
 }
+
+func (Controller *Controller) ApproveRequestDesa(c *gin.Context) {
+	id := c.Param("id")
+	err := Controller.service.AcceptRequestDesa(id)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(200, map[string]interface{}{
+		"code":    200,
+		"message": "success approve desa",
+	})
+	return
+}

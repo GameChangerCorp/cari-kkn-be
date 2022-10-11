@@ -2,22 +2,26 @@ package admin
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/GameChangerCorp/cari-kkn-be/business/admin"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type MongoDBRepository struct {
-	colAdmin *mongo.Collection
-	colDesa  *mongo.Collection
+	colAdmin       *mongo.Collection
+	colDesa        *mongo.Collection
+	colReservation *mongo.Collection
 }
 
 func NewMongoRepository(col *mongo.Database) *MongoDBRepository {
 	return &MongoDBRepository{
-		colAdmin: col.Collection("admin"),
-		colDesa:  col.Collection("desa-kkn"),
+		colAdmin:       col.Collection("admin"),
+		colDesa:        col.Collection("desa-kkn"),
+		colReservation: col.Collection("reservation"),
 	}
 }
 
@@ -56,6 +60,17 @@ func (repo *MongoDBRepository) CreateDesa(desa admin.CreateDesaKKN) error {
 	_, err := repo.colDesa.InsertOne(context.Background(), desa)
 	if err != nil {
 		return err
+	}
+	return nil
+}
+
+func (repo *MongoDBRepository) ApproveRequestDesa(id string) error {
+	objId, _ := primitive.ObjectIDFromHex(id)
+	fmt.Println(objId)
+	err := repo.colReservation.FindOneAndUpdate(context.Background(), bson.M{"_id": objId, "status": "ON PROCESS"}, bson.M{"$set": bson.M{"status": "approved"}}).Err()
+	if err != nil {
+		fmt.Println(err)
+		return errors.New("wrong id desa")
 	}
 	return nil
 }
