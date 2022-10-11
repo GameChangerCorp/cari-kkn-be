@@ -3,10 +3,13 @@ package user
 import "go.mongodb.org/mongo-driver/bson/primitive"
 
 type ResponseLogin struct {
-	ID      primitive.ObjectID `json:"id"`
-	Email   string             `json:"email"`
-	Expired int                `json:"expired"`
-	Token   string             `json:"token"`
+	ID          primitive.ObjectID `json:"id"`
+	Fullname    string             `json:"fullname"`
+	Email       string             `json:"email"`
+	Phone       string             `json:"phone"`
+	Universitas string             `json:"universitas"`
+	Expired     int                `json:"expired"`
+	Token       string             `json:"token"`
 }
 
 type AuthLogin struct {

@@ -27,10 +27,13 @@ func (s *service) Login(auth AuthLogin) (*ResponseLogin, error) {
 	}
 
 	res := &ResponseLogin{
-		ID:      data.ID,
-		Email:   data.Email,
-		Expired: *expired,
-		Token:   *token,
+		ID:          data.ID,
+		Email:       data.Email,
+		Fullname:    data.Fullname,
+		Phone:       data.Phone,
+		Universitas: data.Universitas,
+		Expired:     *expired,
+		Token:       *token,
 	}
 	return res, nil
 }
