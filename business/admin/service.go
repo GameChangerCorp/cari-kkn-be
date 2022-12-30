@@ -12,6 +12,7 @@ type Repository interface {
 	FindAdminByUsername(username string) (*Admin, error)
 	CreateAdmin(auth RegAdmin) error
 	FindAllDesa() ([]DesaKKN, error)
+	GetDesaById(id string) (*DesaKKN, error)
 	CreateDesa(desa CreateDesaKKN) error
 	ApproveRequestDesa(id, status string) error
 }
@@ -21,6 +22,7 @@ type Service interface {
 	GetAllDesa() ([]DesaKKN, error)
 	CreateDesa(desa CreateDesaKKN) error
 	AcceptRequestDesa(id, status string) error
+	GetDesaById(id string) (*DesaKKN, error)
 }
 
 type service struct {
@@ -109,4 +111,15 @@ func (s service) AcceptRequestDesa(id, status string) error {
 		return err
 	}
 	return nil
+}
+
+func (s service) GetDesaById(id string) (*DesaKKN, error) {
+	if id == "" {
+		return nil, errors.New("id is empty")
+	}
+	res, err := s.repository.GetDesaById(id)
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
 }

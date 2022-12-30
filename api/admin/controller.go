@@ -106,3 +106,21 @@ func (Controller *Controller) ApproveRequestDesa(c *gin.Context) {
 	})
 	return
 }
+
+func (Controller *Controller) GetDesaById(c *gin.Context) {
+	id := c.Param("id")
+	res, err := Controller.service.GetDesaById(id)
+	if err != nil {
+		c.JSON(400, map[string]interface{}{
+			"code":    400,
+			"message": err.Error(),
+		})
+		return
+	}
+	c.JSON(200, map[string]interface{}{
+		"code":    200,
+		"message": "success",
+		"result":  res,
+	})
+	return
+}

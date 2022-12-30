@@ -56,6 +56,19 @@ func (repo *MongoDBRepository) FindAllDesa() ([]admin.DesaKKN, error) {
 	return data, nil
 }
 
+func (repo *MongoDBRepository) GetDesaById(id string) (*admin.DesaKKN, error) {
+	var data admin.DesaKKN
+	objId, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, errors.New("invalid id")
+	}
+	err = repo.colDesa.FindOne(context.Background(), bson.M{"_id": objId}).Decode(&data)
+	if err != nil {
+		return nil, err
+	}
+	return &data, nil
+}
+
 func (repo *MongoDBRepository) CreateDesa(desa admin.CreateDesaKKN) error {
 	_, err := repo.colDesa.InsertOne(context.Background(), desa)
 	if err != nil {
