@@ -15,6 +15,7 @@ type Repository interface {
 	GetDesaById(id string) (*DesaKKN, error)
 	CreateDesa(desa CreateDesaKKN) error
 	ApproveRequestDesa(id, status string) error
+	UpdateDesa(id string, desa UpdateDesaKKN) error
 }
 type Service interface {
 	LoginAuth(auth AuthLogin) (*ResponseLogin, error)
@@ -23,6 +24,7 @@ type Service interface {
 	CreateDesa(desa CreateDesaKKN) error
 	AcceptRequestDesa(id, status string) error
 	GetDesaById(id string) (*DesaKKN, error)
+	UpdateDesa(id string, desa UpdateDesaKKN) error
 }
 
 type service struct {
@@ -122,4 +124,16 @@ func (s service) GetDesaById(id string) (*DesaKKN, error) {
 		return nil, err
 	}
 	return res, nil
+}
+
+func (s service) UpdateDesa(id string, input UpdateDesaKKN) error {
+	err := s.validate.Struct(input)
+	if err != nil {
+		return err
+	}
+	err = s.repository.UpdateDesa(id, input)
+	if err != nil {
+		return err
+	}
+	return nil
 }

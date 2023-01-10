@@ -38,8 +38,6 @@ func NewConnectionDatabase(config *config.AppConfig) *DatabaseConnection {
 }
 
 func newMongodb(config *config.AppConfig) *mongo.Client {
-	// dbUser := os.Getenv("MONGO_USERNAME")
-	// dbPass := os.Getenv("MONGO_PASSWORD")
 	dbUrl := os.Getenv("MONGO_HOST")
 	dbport := os.Getenv("MONGO_PORT")
 	dbPass := os.Getenv("MONGO_PASS")

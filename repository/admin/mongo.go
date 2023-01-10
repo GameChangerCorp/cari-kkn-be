@@ -87,3 +87,13 @@ func (repo *MongoDBRepository) ApproveRequestDesa(id, status string) error {
 	}
 	return nil
 }
+
+func (repo *MongoDBRepository) UpdateDesa(id string, input admin.UpdateDesaKKN) error {
+	objId, _ := primitive.ObjectIDFromHex(id)
+	err := repo.colDesa.FindOneAndUpdate(context.Background(), bson.M{"_id": objId}, input).Err()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

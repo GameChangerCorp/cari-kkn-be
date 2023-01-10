@@ -58,3 +58,14 @@ type CreateDesaKKN struct {
 	PicNama     string   `json:"pic_nama" bson:"pic_nama,omitempty"`
 	PicPhone    string   `json:"pic_phone" bson:"pic_phone,omitempty"`
 }
+
+type UpdateDesaKKN struct {
+	NamaTempat  string   `json:"nama_tempat" bson:"nama_tempat,omitempty"`
+	NamaKota    string   `json:"nama_kota" bson:"nama_kota,omitempty"`
+	JumlahOrang int      `json:"jumlah_orang" bson:"jumlah_orang,omitempty"`
+	Fasilitas   []string `json:"fasilitas" bson:"fasilitas,omitempty"`
+	Kebutuhan   []string `json:"kebutuhan" bson:"kebutuhan,omitempty"`
+	PicJabatan  string   `json:"pic_jabatan" bson:"pic_jabatan,omitempty"`
+	PicNama     string   `json:"pic_nama" bson:"pic_nama,omitempty"`
+	PicPhone    string   `json:"pic_phone" bson:"pic_phone,omitempty"`
+}

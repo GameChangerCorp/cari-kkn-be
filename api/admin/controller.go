@@ -124,3 +124,28 @@ func (Controller *Controller) GetDesaById(c *gin.Context) {
 	})
 	return
 }
+
+func (Controller *Controller) UpdateDesa(c *gin.Context) {
+	id := c.Param("id")
+	var input adminBusiness.UpdateDesaKKN
+	err := c.ShouldBindJSON(&input)
+	if err != nil {
+		c.JSON(400, map[string]interface{}{
+			"code":    400,
+			"message": err.Error(),
+		})
+		return
+	}
+	err = Controller.service.UpdateDesa(id, input)
+	if err != nil {
+		c.JSON(400, map[string]interface{}{
+			"code":    400,
+			"message": err.Error(),
+		})
+		return
+	}
+	c.JSON(200, map[string]interface{}{
+		"code":    200,
+		"message": "success",
+	})
+}
