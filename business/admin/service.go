@@ -16,6 +16,7 @@ type Repository interface {
 	CreateDesa(desa CreateDesaKKN) error
 	ApproveRequestDesa(id, status string) error
 	UpdateDesa(id string, desa UpdateDesaKKN) error
+	DeleteDesa(id string) error
 }
 type Service interface {
 	LoginAuth(auth AuthLogin) (*ResponseLogin, error)
@@ -25,6 +26,7 @@ type Service interface {
 	AcceptRequestDesa(id, status string) error
 	GetDesaById(id string) (*DesaKKN, error)
 	UpdateDesa(id string, desa UpdateDesaKKN) error
+	DeleteDesa(id string) error
 }
 
 type service struct {
@@ -132,6 +134,17 @@ func (s service) UpdateDesa(id string, input UpdateDesaKKN) error {
 		return err
 	}
 	err = s.repository.UpdateDesa(id, input)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s service) DeleteDesa(id string) error {
+	if id == "" {
+		return errors.New("id is empty")
+	}
+	err := s.repository.DeleteDesa(id)
 	if err != nil {
 		return err
 	}

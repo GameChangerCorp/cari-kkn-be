@@ -149,3 +149,19 @@ func (Controller *Controller) UpdateDesa(c *gin.Context) {
 		"message": "success",
 	})
 }
+
+func (Controller *Controller) DeleteDesa(c *gin.Context) {
+	id := c.Param("id")
+	err := Controller.service.DeleteDesa(id)
+	if err != nil {
+		c.JSON(400, map[string]interface{}{
+			"code":    400,
+			"message": err.Error(),
+		})
+		return
+	}
+	c.JSON(200, map[string]interface{}{
+		"code":    200,
+		"message": "success",
+	})
+}

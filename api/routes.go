@@ -19,6 +19,7 @@ func RegistrationPath(e *gin.Engine, controller Controller) {
 	e.POST("admin/register", controller.AdminController.RegisterAdmin)
 	e.POST("/admin/desa/:status/:id", controller.AdminController.ApproveRequestDesa)
 	e.PUT("/admin/desa/:id", controller.AdminController.UpdateDesa)
+	e.DELETE("/admin/desa/:id", controller.AdminController.DeleteDesa)
 
 	e.POST("user/login", controller.UserController.LoginAuth)
 	e.POST("user/register", controller.UserController.RegisterAuth)

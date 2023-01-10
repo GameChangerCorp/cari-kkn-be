@@ -97,3 +97,12 @@ func (repo *MongoDBRepository) UpdateDesa(id string, input admin.UpdateDesaKKN) 
 
 	return nil
 }
+
+func (repo *MongoDBRepository) DeleteDesa(id string) error {
+	objId, _ := primitive.ObjectIDFromHex(id)
+	err := repo.colDesa.FindOneAndDelete(context.Background(), bson.M{"_id": objId}).Err()
+	if err != nil {
+		return err
+	}
+	return nil
+}
